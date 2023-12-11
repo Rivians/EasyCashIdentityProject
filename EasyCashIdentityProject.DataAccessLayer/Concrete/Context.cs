@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasyCashIdentityProject.DataAccessLayer.Concrete
 {
+	// IdentityDbContext özünde yine dbContext'ten miras alıyor. !!!
 	public class Context : IdentityDbContext<AppUser,AppRole,int>
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
