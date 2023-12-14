@@ -19,6 +19,7 @@ namespace EasyCashIdentityProject.BusinessLayer.ValidationRules.AppUserValidatio
             RuleFor(x => x.Username).NotEmpty().WithMessage("Kullanıcı adı alanı boş geçilemez.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Şifre alanı boş geçilemez.");
             RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage("Şifre tekrar alanı boş geçilemez.");
+
             RuleFor(x => x.Name).MinimumLength(2).WithMessage("Lütfen en az 2 veri girişi yapınız.");
             RuleFor(x => x.Name).MaximumLength(30).WithMessage("Lütfen en fazla 30 veri girişi yapınız.");
             RuleFor(x => x.Password).Equal(y => y.ConfirmPassword).WithMessage("Parolalarınız eşleşmiyor.");

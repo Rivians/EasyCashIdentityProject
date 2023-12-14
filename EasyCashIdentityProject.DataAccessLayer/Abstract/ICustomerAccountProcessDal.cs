@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyCashIdentityProject.DataAccessLayer.Abstract
 {
-	public interface ICustomerAccount : IGenericDal<CustomerAccount>
+	public interface ICustomerAccountProcessDal : IGenericDal<CustomerAccountProcess>
 	{
 	}
 }
