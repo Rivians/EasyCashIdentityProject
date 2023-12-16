@@ -15,6 +15,7 @@ namespace EasyCashIdentityProject.EntityLayer.Concrete
         public string District { get; set; }  // ilçe
         public string City { get; set; }  // şehir
         public string ImageUrl { get; set; }
+        public int ConfirmCode { get; set; }
         public List<CustomerAccount> CustomerAccounts { get; set; }  // bir user'in 1'den fazla account'u olabilir.
 
         // name, surname, district, city, imageurl değişkenleri, sql deki AspNetUsers tablosuna yeni bir sutün olarak eklenecektir. 
