@@ -1,7 +1,9 @@
 ﻿using EasyCashIdentityProject.DtoLayer.Dtos.AppUserDtos;
 using EasyCashIdentityProject.EntityLayer.Concrete;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 
 namespace EasyCashIdentityProject.PresentationLayer.Controllers
 {
@@ -26,7 +28,9 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
             if (ModelState.IsValid)
             {
                 Random random = new Random();
-                AppUser appUser = new AppUser()
+                int code;
+                code = random.Next(100000, 1000000);
+				AppUser appUser = new AppUser()
                 {
                     UserName = appUserRegisterDto.Username,
                     Name = appUserRegisterDto.Name,
@@ -35,14 +39,32 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
                     District = "aa",
                     City = "bb",
                     ImageUrl = "cc",
-                    ConfirmCode = random.Next(100000, 1000000)                    
+                    ConfirmCode = code
                 };
                 var result = await _userManager.CreateAsync(appUser, appUserRegisterDto.Password);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("Index","ConfirmMail");
-                }
-                else
+                    MimeMessage mimeMessage = new MimeMessage();
+                    MailboxAddress mailboxAddressFrom = new MailboxAddress("Easy Cash Admin", "nexorevolutionn@gmail.com");
+                    MailboxAddress mailboxAddressTo = new MailboxAddress("User", appUser.Email);
+
+                    mimeMessage.To.Add(mailboxAddressTo);
+                    mimeMessage.From.Add(mailboxAddressFrom);
+
+                    var bodyBuilder = new BodyBuilder();
+                    bodyBuilder.TextBody = "Kayıt işlemini gerçekleştirmek için gereken onay kodunuz : " + code; 
+                    mimeMessage.Body = bodyBuilder.ToMessageBody();
+                    mimeMessage.Subject = "Easy Cash Onay Kodu";
+
+				    SmtpClient client = new SmtpClient();
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate("nexorevolutionn@gmail.com", "rvnqeyyagudaqkuz");
+                    client.Send(mimeMessage);
+                    client.Disconnect(true);
+
+					return RedirectToAction("Index", "ConfirmMail");
+				}
+				else
                 {
                     foreach (var item in result.Errors)
                     {
