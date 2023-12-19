@@ -7,6 +7,7 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
 {
 	public class ConfirmMailController : Controller
 	{
+		// UserManager<AppUser> ifadesi, ASP.NET Identity tarafından sağlanan kullanıcı yönetimi sınıfını, uygulamanızın kullanıcı modeli olan AppUser tipi ile kullanmak üzere konfigüre etmektedir.
 		private readonly UserManager<AppUser> _userManager;
 		public ConfirmMailController(UserManager<AppUser> userManager)
 		{
@@ -29,6 +30,9 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
 			var user = await _userManager.FindByEmailAsync(confirmMailViewModel.Mail);
 			if(user.ConfirmCode == confirmMailViewModel.ConfirmCode)
 			{
+				// _userManager.UpdateAsync(user); ifadesi, UserManager sınıfının bir metodu olup, bir kullanıcının veritabanındaki bilgilerini güncellemek için kullanılır. (genelde yapılan değişikler sonrasında bu kod yazılır.)
+				user.EmailConfirmed = true;
+				await _userManager.UpdateAsync(user);
 				return RedirectToAction("index", "MyProfile");
 			}
 			return View();
