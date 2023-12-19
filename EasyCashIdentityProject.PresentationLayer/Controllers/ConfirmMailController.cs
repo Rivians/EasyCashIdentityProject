@@ -33,7 +33,7 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
 				// _userManager.UpdateAsync(user); ifadesi, UserManager sınıfının bir metodu olup, bir kullanıcının veritabanındaki bilgilerini güncellemek için kullanılır. (genelde yapılan değişikler sonrasında bu kod yazılır.)
 				user.EmailConfirmed = true;
 				await _userManager.UpdateAsync(user);
-				return RedirectToAction("index", "MyProfile");
+				return RedirectToAction("Index", "Login");
 			}
 			return View();
 		}
